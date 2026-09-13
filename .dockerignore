@@ -1,0 +1,13 @@
+node_modules
+dist
+build
+.git
+.gitignore
+.env
+.env.local
+.next
+.vite
+coverage
+backend/__pycache__
+backend/*.pyc
+backend/scripts/

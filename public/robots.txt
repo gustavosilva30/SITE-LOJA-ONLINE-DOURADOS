@@ -1,0 +1,8 @@
+﻿User-agent: *
+Disallow: /api/
+Disallow: /admin/
+Disallow: /checkout
+Disallow: /pedido/
+Disallow: /meus-pedidos
+
+Sitemap: https://www.autopecasdourados.com.br/sitemap.xml

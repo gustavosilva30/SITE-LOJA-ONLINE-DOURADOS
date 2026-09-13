@@ -1,0 +1,421 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-lg: 0.5rem;
+  --radius-md: calc(0.5rem - 2px);
+  --radius-sm: calc(0.5rem - 4px);
+}
+
+
+@layer base {
+  :root {
+    --background: #f8fafc;
+    --foreground: #0f172a;
+    --card: #ffffff;
+    --card-foreground: #0f172a;
+    --popover: #ffffff;
+    --popover-foreground: #0f172a;
+    --primary: #0f172a;
+    --primary-foreground: #ffffff;
+    --secondary: #f1f5f9;
+    --secondary-foreground: #0f172a;
+    --muted: #f1f5f9;
+    --muted-foreground: #475569;
+    --accent: #4f46e5;
+    --accent-foreground: #ffffff;
+    --destructive: #ef4444;
+    --destructive-foreground: #fafafa;
+    --border: #e2e8f0;
+    --input: #e2e8f0;
+    --ring: #4f46e5;
+  }
+
+  /*
+   * Loja online (/loja, checkout, etc.): Padrão PitStop.
+   *
+   * Duplicamos a regra com `.dark .store-public-scope` (e o seletor "atributo == ele mesmo"
+   * pra blindar qualquer ancestral) porque a paleta `.dark` é declarada DEPOIS neste mesmo
+   * @layer e ganha por ordem. Sem isso, modais via portal (anexados em document.body, ou
+   * seja, dentro do <html class="dark">) ficavam pretos.
+   */
+  .store-public-scope,
+  .dark .store-public-scope,
+  .store-public-scope.store-public-scope,
+  .store-public-scope *,
+  .dark .store-public-scope *,
+  .store-public-scope.store-public-scope * {
+    --background: #FFFFFF !important;
+    --foreground: #0F172A !important;
+    --card: #FFFFFF !important;
+    --card-foreground: #0F172A !important;
+    --popover: #FFFFFF !important;
+    --popover-foreground: #0F172A !important;
+    --primary: #001A54 !important;
+    --primary-foreground: #ffffff !important;
+    --secondary: #F1F5F9 !important;
+    --secondary-foreground: #001A54 !important;
+    --muted: #F1F5F9 !important;
+    --muted-foreground: #475569 !important;
+    --accent: #B6D433 !important;
+    --accent-foreground: #001A54 !important;
+    --destructive: #ef4444 !important;
+    --destructive-foreground: #fafafa !important;
+    --border: #E2E8F0 !important;
+    --input: #FFFFFF !important;
+    --ring: #001A54 !important;
+  }
+
+  .store-public-scope {
+    color: #0F172A !important;
+    background-color: #F4F7F9 !important;
+  }
+
+  /* Direct overrides to fix HSL vs HEX compilation issues with Tailwind/Shadcn components in storefront */
+  .store-public-scope .bg-card,
+  .dark .store-public-scope .bg-card,
+  .store-public-scope .bg-card.bg-card,
+  .dark .store-public-scope .bg-card.bg-card {
+    background-color: #FFFFFF !important;
+    color: #0F172A !important;
+  }
+
+  .store-public-scope .text-card-foreground,
+  .dark .store-public-scope .text-card-foreground {
+    color: #0F172A !important;
+  }
+
+  .store-public-scope .bg-popover,
+  .dark .store-public-scope .bg-popover {
+    background-color: #FFFFFF !important;
+    color: #0F172A !important;
+  }
+
+  .store-public-scope .bg-muted,
+  .dark .store-public-scope .bg-muted {
+    background-color: #F1F5F9 !important;
+    color: #475569 !important;
+  }
+
+  .store-public-scope .bg-secondary,
+  .dark .store-public-scope .bg-secondary {
+    background-color: #F1F5F9 !important;
+    color: #001A54 !important;
+  }
+
+  .store-public-scope .border-border,
+  .dark .store-public-scope .border-border,
+  .store-public-scope .border-slate-100,
+  .dark .store-public-scope .border-slate-100,
+  .store-public-scope .border-slate-200,
+  .dark .store-public-scope .border-slate-200 {
+    border-color: #E2E8F0 !important;
+  }
+
+  /* Mesmo problema (var() dentro de --color-X do @theme "congela" no valor de :root/.dark
+     e ignora o --X redeclarado aqui) afetando o botão "outline" do shadcn/ui (bg-background +
+     border-input) e outras variantes (default/accent/destructive) — sem isso, um visitante
+     novo (tema padrão "dark", ver ThemeProvider.tsx) via botões pretos com ícone/texto
+     também escuro (ilegível) em qualquer <Button variant="outline"> da loja. */
+  .store-public-scope .bg-background,
+  .dark .store-public-scope .bg-background {
+    background-color: #FFFFFF !important;
+    color: #0F172A !important;
+  }
+
+  .store-public-scope .border-input,
+  .dark .store-public-scope .border-input {
+    border-color: #E2E8F0 !important;
+  }
+
+  .store-public-scope .bg-primary,
+  .dark .store-public-scope .bg-primary {
+    background-color: #001A54 !important;
+    color: #ffffff !important;
+  }
+
+  .store-public-scope .text-primary-foreground,
+  .dark .store-public-scope .text-primary-foreground {
+    color: #ffffff !important;
+  }
+
+  .store-public-scope .bg-accent,
+  .dark .store-public-scope .bg-accent {
+    background-color: #B6D433 !important;
+    color: #001A54 !important;
+  }
+
+  .store-public-scope .text-accent-foreground,
+  .dark .store-public-scope .text-accent-foreground {
+    color: #001A54 !important;
+  }
+
+  .store-public-scope .bg-destructive,
+  .dark .store-public-scope .bg-destructive {
+    background-color: #ef4444 !important;
+    color: #fafafa !important;
+  }
+
+  .store-public-scope .text-destructive-foreground,
+  .dark .store-public-scope .text-destructive-foreground {
+    color: #fafafa !important;
+  }
+
+  .store-public-scope input,
+  .store-public-scope textarea,
+  .store-public-scope select {
+    background-color: #FFFFFF !important;
+    color: #0F172A !important;
+    border: 1px solid #E2E8F0 !important;
+  }
+
+
+  .dark {
+    --background: #020617;
+    --foreground: #f8fafc;
+    --card: #020617;
+    --card-foreground: #f8fafc;
+    --popover: #020617;
+    --popover-foreground: #f8fafc;
+    --primary: #f8fafc;
+    --primary-foreground: #020617;
+    --secondary: #1e293b;
+    --secondary-foreground: #f8fafc;
+    --muted: #1e293b;
+    --muted-foreground: #94a3b8;
+    --accent: #6366f1;
+    --accent-foreground: #ffffff;
+    --destructive: #ef4444;
+    --destructive-foreground: #fafafa;
+    --border: #1e293b;
+    --input: #1e293b;
+    --ring: #6366f1;
+  }
+
+  * {
+    border-color: var(--border);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  /* slate-300 */
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+  /* slate-400 */
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
+  /* slate-600 */
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+  /* slate-500 */
+}
+
+/* ================================================
+   Premium UI Utilities
+   ================================================ */
+
+/* Animated stripe progress bars (use on inner bar element) */
+@keyframes progress-stripes {
+  0%   { background-position: 0 0; }
+  100% { background-position: 40px 0; }
+}
+
+.progress-animated {
+  background-image: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.15) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.15) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 40px 40px;
+  animation: progress-stripes 1.2s linear infinite;
+}
+
+/* Glassmorphism helper — add to any overlay element */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark .glass {
+  background: rgba(2, 6, 23, 0.75);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+/* Card hover lift — applied automatically via card.tsx, expose as utility too */
+.card-hover {
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1), 0 3px 8px rgba(0, 0, 0, 0.07);
+}
+
+/* Glow ring for primary action buttons (add .btn-glow class) */
+.btn-glow {
+  transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
+}
+.btn-glow:hover {
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+  transform: translateY(-1px);
+}
+.dark .btn-glow:hover {
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+}
+
+/* Critical / alert badge pulse */
+@keyframes alert-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  50%       { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+}
+.badge-critical {
+  animation: alert-pulse 2s ease-in-out infinite;
+}
+/* Checkerboard pattern for transparency visualization */
+.bg-checkerboard {
+  background-image: 
+    linear-gradient(45deg, #e2e8f0 25%, transparent 25%), 
+    linear-gradient(-45deg, #e2e8f0 25%, transparent 25%), 
+    linear-gradient(45deg, transparent 75%, #e2e8f0 75%), 
+    linear-gradient(-45deg, transparent 75%, #e2e8f0 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  background-color: #f8fafc;
+}
+
+.dark .bg-checkerboard {
+  background-image: 
+    linear-gradient(45deg, #1e293b 25%, transparent 25%), 
+    linear-gradient(-45deg, #1e293b 25%, transparent 25%), 
+    linear-gradient(45deg, transparent 75%, #1e293b 75%), 
+    linear-gradient(-45deg, transparent 75%, #1e293b 75%);
+  background-color: #020617;
+}
+/* ================================================
+   Print Utilities
+   ================================================ */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body, html, #root {
+    background-color: white !important;
+    color: black !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  /* Reset nested height/overflow layout for printing */
+  .h-screen, 
+  .h-full, 
+  div[class*="h-screen"], 
+  div[class*="h-full"], 
+  main, 
+  main[class*="h-full"],
+  div[class*="overflow-hidden"], 
+  div[class*="overflow-y-auto"] {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    position: relative !important;
+  }
+
+  /* Ensure background and borders are kept high quality in print */
+  .bg-card {
+    background-color: #ffffff !important;
+    border-color: #e2e8f0 !important;
+  }
+
+  .border {
+    border-color: #e2e8f0 !important;
+  }
+}
+
+/* ================================================
+   Custom Animations
+   ================================================ */
+@keyframes cameraPan {
+  0% {
+    background-position: left center;
+  }
+  100% {
+    background-position: right center;
+  }
+}
+
+.animate-camera-pan {
+  animation: cameraPan 40s ease-in-out infinite alternate;
+}

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 40" width="128" height="40" role="img" aria-label="Melhor Envio">
+  <rect width="128" height="40" rx="6" fill="#f8fafc"/>
+  <text x="8" y="17" font-family="system-ui,Segoe UI,sans-serif" font-weight="700" font-size="11" fill="#1e3a5f">melhor</text>
+  <text x="8" y="32" font-family="system-ui,Segoe UI,sans-serif" font-weight="700" font-size="11" fill="#1e3a5f">envio</text>
+  <path d="M 92 6 L 108 4 L 112 14 L 104 20 L 96 18 Z" fill="none" stroke="#f59e0b" stroke-width="2.2" stroke-linejoin="round"/>
+  <path d="M 96 18 Q 100 22 104 20" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
+</svg>

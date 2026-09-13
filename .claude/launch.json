@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "crm-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--", "--port", "3100"],
+      "port": 3100
+    },
+    {
+      "name": "mobile-entregas-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "mobile-entregas", "run", "dev"],
+      "port": 5176
+    }
+  ]
+}

@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="pt-BR" translate="no" class="notranslate">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="google" content="notranslate" />
+    <link rel="preconnect" href="https://api.douradosap.com.br" crossorigin>
+    <link rel="preconnect" href="https://minio.douradosap.com.br" crossorigin>
+    <link rel="dns-prefetch" href="https://api.douradosap.com.br">
+    <link rel="dns-prefetch" href="https://minio.douradosap.com.br">
+    <meta name="theme-color" content="#0ea5e9">
+    <link rel="stylesheet" href="/fonts/fonts.css" />
+    <link rel="icon" type="image/png" href="/crm-icon-192.png" />
+
+    <!-- SEO padrão: pensado pro domínio público da loja (autopecasdourados.com.br).
+         O script logo abaixo troca esses valores em runtime quando detecta que está
+         rodando no domínio do CRM interno (douradosap.com.br) — ver isCrmHost(). -->
+    <title>Dourados Auto Peças — Loja Online de Peças Automotivas em Dourados/MS</title>
+    <meta name="description" content="Compre peças automotivas novas e usadas em Dourados/MS com entrega rápida e retirada na loja. Amortecedores, suspensão, elétrica, lataria e muito mais — confira o catálogo online." />
+    <link rel="canonical" href="https://www.autopecasdourados.com.br/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Dourados Auto Peças" />
+    <meta property="og:title" content="Dourados Auto Peças — Loja Online de Peças Automotivas" />
+    <meta property="og:description" content="O maior estoque de peças automotivas da região, com a conveniência da compra online e retirada expressa em Dourados/MS." />
+    <meta property="og:url" content="https://www.autopecasdourados.com.br/" />
+    <meta property="og:image" content="https://www.autopecasdourados.com.br/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="pt_BR" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Dourados Auto Peças — Loja Online de Peças Automotivas" />
+    <meta name="twitter:description" content="O maior estoque de peças automotivas da região, com a conveniência da compra online e retirada expressa em Dourados/MS." />
+    <meta name="twitter:image" content="https://www.autopecasdourados.com.br/og-image.jpg" />
+
+    <script>
+      (function () {
+        // O mesmo index.html/bundle serve dois domínios (loja pública +
+        // CRM interno). As tags acima são as corretas pra loja; aqui a gente
+        // corrige em runtime pro domínio do CRM, que não deve ser indexado.
+        function isCrmHost(hostname) {
+          return /(^|\.)douradosap\.com\.br$/i.test(hostname || "");
+        }
+        try {
+          if (isCrmHost(window.location.hostname)) {
+            document.title = "CRM Dourados Auto Peças";
+            var robotsMeta = document.createElement("meta");
+            robotsMeta.setAttribute("name", "robots");
+            robotsMeta.setAttribute("content", "noindex, nofollow");
+            document.head.appendChild(robotsMeta);
+            var canonical = document.querySelector('link[rel="canonical"]');
+            if (canonical) canonical.remove();
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      (function() {
+        if (typeof window !== "undefined" && navigator && "serviceWorker" in navigator) {
+          var isStore = /(^|\.)autopecasdourados\.com\.br$/i.test(window.location.hostname || "");
+          if (isStore) {
+            navigator.serviceWorker.getRegistrations().then(function(regs) {
+              for (var i = 0; i < regs.length; i++) regs[i].unregister();
+            }).catch(function() {});
+          }
+        }
+
+        var CHUNK_ERROR_PATTERNS = [
+          "failed to fetch dynamically imported module",
+          "error loading dynamically imported module",
+          "importing a module script failed",
+          "expected a javascript",
+          "mime type",
+          "failed to load module script"
+        ];
+        function isChunkError(msg) {
+          if (!msg) return false;
+          msg = String(msg).toLowerCase();
+          for (var i = 0; i < CHUNK_ERROR_PATTERNS.length; i++) {
+            if (msg.indexOf(CHUNK_ERROR_PATTERNS[i]) !== -1) return true;
+          }
+          return false;
+        }
+        function reloadApp(reason) {
+          try {
+            var key = "__chunk_reload_ts";
+            var last = Number(sessionStorage.getItem(key) || 0);
+            var now = Date.now();
+            if (now - last > 10000) {
+              sessionStorage.setItem(key, String(now));
+              console.warn("[PWA] Erro de carregamento de módulo (" + reason + "). Limpando caches e recarregando...");
+              var doReload = function() { window.location.reload(); };
+              if (window.caches) {
+                caches.keys().then(function(keys) {
+                  return Promise.all(keys.map(function(k) { return caches.delete(k); }));
+                }).then(doReload).catch(doReload);
+              } else {
+                doReload();
+              }
+            } else {
+              console.error("[PWA] Erro de carregamento repetido em menos de 10s. Evitando loop.");
+            }
+          } catch(e) {}
+        }
+        window.addEventListener('error', function(e) {
+          var message = e.message || (e.error && e.error.message) || "";
+          var target = e.target || e.srcElement;
+          var isScriptElementError = target && target.tagName === 'SCRIPT' && target.src && (target.src.indexOf('/assets/') !== -1 || target.src.indexOf('/src/') !== -1);
+          if (isChunkError(message) || isScriptElementError) {
+            reloadApp("error event: " + message + (isScriptElementError ? " (script load failed: " + target.src + ")" : ""));
+          }
+        }, true);
+        window.addEventListener('unhandledrejection', function(e) {
+          var message = (e.reason && (e.reason.message || e.reason)) || "";
+          if (isChunkError(message)) {
+            reloadApp("unhandledrejection: " + message);
+          }
+        });
+      })();
+    </script>
+    <!-- SDK do Mercado Pago (sdk.mercadopago.com/js/v2) é carregado dinamicamente só na
+         página de checkout (ver src/store/lib/loadMercadoPagoSdk.ts) — evita baixar o
+         script em toda página da loja quando só o checkout precisa dele. -->
+  </head>
+  <body translate="no" class="notranslate">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

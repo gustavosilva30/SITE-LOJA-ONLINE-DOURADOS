@@ -1,0 +1,16 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Assets do Vite — NÃO deve cair no fallback de SPA.
+# Se o arquivo não existe, retorna 404 em vez de index.html (que causa erro de MIME type).
+[[redirects]]
+  from = "/assets/*"
+  to = "/assets/:splat"
+  status = 404
+  force = false
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

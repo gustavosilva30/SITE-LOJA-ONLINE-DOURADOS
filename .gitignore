@@ -1,0 +1,59 @@
+node_modules/
+.cursor/mcp.json
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+*_log.txt
+.env*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+.env.venv
+
+# Ferramentas / IDE (opcional)
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.idea/
+
+# n8n MCP
+mcp-servers/n8n-mcp/
+.claude/worktrees/
+
+# Credenciais e configurações sensíveis
+.mcp.json
+test_db.py
+test_db*.py
+test_query.py
+
+# Scripts de fix/migração ad-hoc (podem conter credenciais hardcoded)
+fix_db.py
+run_mig.py
+scratch_*.py
+check_pg_stat.py
+audit_seq_scans.py
+
+# Scripts de teste/scratch (contêm credenciais hardcoded)
+scratch/
+backend/scratch/
+
+# Banco SQLite (nunca deve ir para produção)
+*.db
+*.sqlite
+*.sqlite3
+
+# Brain / Gemini (pode conter credenciais em scratch files)
+brain/
+
+# Logs de migração (podem conter dados sensíveis)
+migration_prod.log
+
+# Temporários
+tmp/
