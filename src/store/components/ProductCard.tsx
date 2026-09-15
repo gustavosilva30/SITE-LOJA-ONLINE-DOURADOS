@@ -140,7 +140,7 @@ export function ProductCard({ product, showAddToCart = true }: ProductCardProps)
                 )}
                 <span className="text-[7px] sm:text-[9px] font-bold text-slate-400 uppercase tracking-widest truncate max-w-[80px] sm:max-w-none">SKU: {product.sku}</span>
               </div>
-              <h3 className="font-black text-[#001A54] text-xs sm:text-sm md:text-base line-clamp-2 leading-tight uppercase tracking-tighter italic group-hover:text-[#B6D433] transition-colors">
+              <h3 className="font-bold text-[#001A54] text-sm md:text-base line-clamp-2 leading-tight group-hover:text-[#B6D433] transition-colors">
                 {product.nome}
               </h3>
             </div>
