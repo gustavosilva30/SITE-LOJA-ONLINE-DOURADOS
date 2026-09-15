@@ -866,13 +866,23 @@ export function StoreHome() {
         {/* Banner Clickable Veículos para Desmontagem */}
         {!filters.search && !filters.category && (
           <section className="relative w-full">
-            <Link to="/sucatas" className="block relative w-full rounded-2xl overflow-hidden shadow-xl hover:shadow-[0_20px_50px_rgba(0,26,84,0.15)] transition-all duration-500 hover:-translate-y-1">
+            <Link to="/sucatas" className="block relative w-full rounded-2xl overflow-hidden shadow-xl hover:shadow-[0_20px_50px_rgba(0,26,84,0.15)] transition-all duration-500 hover:-translate-y-1 group">
               <img
                 src="/images/veiculos-desmontagem-v3.jpg"
                 alt="Veículos para Desmontagem"
                 className="w-full h-auto block"
               />
-              <div className="absolute inset-0 bg-black/10 hover:bg-black/0 transition-colors duration-500" />
+              <div className="absolute inset-0 bg-black/10 group-hover:bg-black/30 transition-colors duration-500" />
+              
+              {/* Botão flutuante animado indicando clique */}
+              <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8 flex items-center justify-center pointer-events-none">
+                <div className="animate-bounce bg-[#0ea5e9] text-white font-black px-5 py-2.5 md:px-6 md:py-3 rounded-full shadow-[0_10px_25px_rgba(14,165,233,0.6)] border-2 border-white/30 flex items-center gap-2 text-xs md:text-sm backdrop-blur-sm transition-transform group-hover:scale-110">
+                  <svg className="w-5 h-5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
+                  </svg>
+                  CLIQUE AQUI
+                </div>
+              </div>
             </Link>
           </section>
         )}
